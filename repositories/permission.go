@@ -1,20 +1,22 @@
 package repositories
 
-import "fmt"
+import (
+	"idnatiya/go-auth/databases"
+	"idnatiya/go-auth/models"
+)
 
-type PermissionRepository interface {
-	SayHello()
+type PermissionRepository struct {
 }
 
-type permissionRepository struct {
+func (repo PermissionRepository) Create(permission *models.Permission) (*models.Permission, error) {
+	err := databases.DB.Save(permission)
+	if err.Error != nil {
+		return nil, err.Error
+	}
+
+	return permission, err.Error
 }
 
-func (repo permissionRepository) SayHello() {
-	fmt.Println("Hello")
-}
-
-func NewPermissionRepository() PermissionRepository {
-	var newPermissionRepository PermissionRepository
-	newPermissionRepository = permissionRepository{}
-	return newPermissionRepository
+func NewPermissionRepository() *PermissionRepository {
+	return &PermissionRepository{}
 }

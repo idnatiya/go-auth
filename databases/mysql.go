@@ -13,11 +13,14 @@ var DB *gorm.DB
 func ConnectMysqlDB() {
 	database, err := gorm.Open(
 		mysql.Open(
-			os.Getenv("DB_USER") + ":" +
-				os.Getenv("DB_PASS") + "@tcp(" +
-				os.Getenv("DB_HOST") + ":" +
-				os.Getenv("DB_PORT") + ")/" +
-				os.Getenv("DB_NAME") + "?charset=utf8&parseTime=True&loc=Local"),
+			os.Getenv("DB_USER")+":"+
+				os.Getenv("DB_PASS")+"@tcp("+
+				os.Getenv("DB_HOST")+":"+
+				os.Getenv("DB_PORT")+")/"+
+				os.Getenv("DB_NAME")+"?charset=utf8&parseTime=True&loc=Local"),
+		&gorm.Config{
+			TranslateError: true,
+		},
 	)
 	if err != nil {
 		panic("Failed to connect MySQL Database")

@@ -1,24 +1,25 @@
 package services
 
 import (
+	"idnatiya/go-auth/models"
 	"idnatiya/go-auth/repositories"
 	"idnatiya/go-auth/requests"
 )
 
-var permissionRepository = new(repositories.PermissionRepository)
-
-type PermissionService interface {
-	Create(req *requests.CreatePermissionRequest)
+type PermissionService struct {
+	*repositories.PermissionRepository
 }
 
-type permissionService struct{}
+func (service PermissionService) Create(req *requests.CreatePermissionRequest) (*models.Permission, error) {
+	permission := models.Permission{
+		PermissionName: req.PermissionName,
+	}
 
-func (service permissionService) Create(req *requests.CreatePermissionRequest) {
-
+	return service.PermissionRepository.Create(&permission)
 }
 
-func NewPermissionService() PermissionService {
-	var newPermissionService PermissionService
-	newPermissionService = permissionService{}
-	return newPermissionService
+func NewPermissionService(repo *repositories.PermissionRepository) *PermissionService {
+	return &PermissionService{
+		PermissionRepository: repo,
+	}
 }
