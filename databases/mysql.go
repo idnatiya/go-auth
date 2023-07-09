@@ -28,6 +28,7 @@ func ConnectMysqlDB() {
 
 	database.AutoMigrate(&models.User{})
 	database.AutoMigrate(&models.Permission{})
+	database.AutoMigrate(&models.Role{})
 
 	DB = database
 }

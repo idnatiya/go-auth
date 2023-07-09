@@ -11,6 +11,10 @@ var permission = providers.InitializePermission()
 func DefineWebRoute(c *gin.Engine) {
 	v1 := c.Group("/v1")
 	{
+		v1.GET("/permissions", permission.ListPermission)
+		v1.GET("/permission/:id/show", permission.ShowPermission)
 		v1.POST("/permission", permission.CreatePermission)
+		v1.PUT("/permission/:id", permission.UpdatePermission)
+		v1.DELETE("/permission/:id", permission.Delete)
 	}
 }
