@@ -7,6 +7,7 @@ import (
 )
 
 var permission = providers.InitializePermission()
+var filesystem = providers.InitializeFilesystem()
 
 func DefineWebRoute(c *gin.Engine) {
 	v1 := c.Group("/v1")
@@ -16,5 +17,7 @@ func DefineWebRoute(c *gin.Engine) {
 		v1.POST("/permission", permission.CreatePermission)
 		v1.PUT("/permission/:id", permission.UpdatePermission)
 		v1.DELETE("/permission/:id", permission.Delete)
+
+		v1.POST("/file", filesystem.Create)
 	}
 }

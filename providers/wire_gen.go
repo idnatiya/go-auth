@@ -12,11 +12,18 @@ import (
 	"idnatiya/go-auth/services"
 )
 
-// Injectors from permission.go:
+// Injectors from injector.go:
 
 func InitializePermission() *controllers.PermissionController {
 	permissionRepository := repositories.NewPermissionRepository()
 	permissionService := services.NewPermissionService(permissionRepository)
 	permissionController := controllers.NewPermissionController(permissionService)
 	return permissionController
+}
+
+func InitializeFilesystem() *controllers.FileController {
+	fileRepository := repositories.NewFileRepository()
+	fileService := services.NewFileService(fileRepository)
+	fileController := controllers.NewFileController(fileService)
+	return fileController
 }

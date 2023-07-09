@@ -17,5 +17,16 @@ func InitializePermission() *controllers.PermissionController {
 		repositories.NewPermissionRepository,
 		services.NewPermissionService,
 	)
+
+	return nil
+}
+
+func InitializeFilesystem() *controllers.FileController {
+	wire.Build(
+		controllers.NewFileController,
+		repositories.NewFileRepository,
+		services.NewFileService,
+	)
+
 	return nil
 }
