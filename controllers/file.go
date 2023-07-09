@@ -1,12 +1,9 @@
 package controllers
 
 import (
-	"idnatiya/go-auth/helpers"
 	"idnatiya/go-auth/services"
-	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type FileController struct {
@@ -22,16 +19,16 @@ func (ctrl *FileController) Create(context *gin.Context) {
 		return
 	}
 
-	// Get file extension
-	extension, _ := helpers.Last[string](strings.Split(file.Filename, "."))
-	// Generate new file name by UUID
-	newFileName := uuid.New().String() + "." + extension
-	// Move file uploaded
-	context.SaveUploadedFile(file, "storage/app/public/"+newFileName)
+	uploadedFile, err := ctrl.FileService.Create(file, "", context)
+	if err != nil {
+		context.AbortWithStatusJSON(500, gin.H{
+			"message": err.Error(),
+		})
+	}
 
 	context.JSON(200, gin.H{
-		"message":     "Successfully uploaded file",
-		"newFileName": newFileName,
+		"message": "Successfully uploaded file",
+		"file":    uploadedFile,
 	})
 }
 
